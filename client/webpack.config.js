@@ -30,45 +30,112 @@ module.exports = {
   resolve: {
     extensions: ['', '.ts', '.tsx', '.js']
   },
-  resolveLoader: {
-    'fallback': path.join(__dirname, 'node_modules')
-  },
   module: {
-    preLoaders: [
-      {
-        test: /\.tsx?$/,
-        loader: 'tslint',
-        include: path.join(__dirname, 'src')
-      }
-    ],
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        loader: 'style!css'
+        use:[
+          {
+            loader:'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          }
+
+        ]
       },
       {
         test: /\.less$/,
-        loader: 'style!css!less',
-        include: path.join(__dirname, 'src/styles')
+        include: path.join(__dirname, 'src/styles'),
+        use: [
+          {
+            loader:'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              sourceMap: true,
+            },
+          }
+        ]
       },
       {
         test: /\.(png|jpg)$/,
-        loader: 'url?limit=25000'
+        loader: 'url',
+        options: {
+          limit: 25000
+        }
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
-        loader: 'file?name=public/fonts/[name].[ext]'
+        loader: 'file',
+        options: {
+          name: 'public/fonts/[name].[ext]'
+        }
       },
 
       {
         test: /\.tsx?$/,
-        loader: 'babel!ts',
-        include: path.join(__dirname, 'src')
+        include: path.join(__dirname, 'src'),
+        use:[
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['babel/preset-react, @babel/preset-env'],
+              plugins: [
+                'react-hot-loader/babel'
+              ]
+            }
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              configFile: path.resolve(__dirname, 'tsconfig.json')
+            }
+          }
+        ]
       }
     ]
   },
-  tslint: {
-    emitErrors: true,
-    failOnHint: true
-  }
+  devServer: {
+    historyApiFallback: true,
+    open: false,
+    host: '0.0.0.0',
+    port: port,
+    devMiddleware: {
+      stats: {
+        all: false,
+        errors: true,
+        timings: true,
+        warnings: false,
+      },
+    },
+    // Configure webSocketURL on automatic mode
+    // Useful for codespaces
+    client: {
+      webSocketURL: 'auto://0.0.0.0:0/ws',
+    },
+    allowedHosts: ['127.0.0.1', 'localhost'],
+    // Disable HTTPS when developing in a codespace
+    // Because port forwarding does not work with https and self signed certificates
+    // Also the codespace proxy is already using HTTPS
+    server: 'https',
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:9966',
+        secure: false,
+      },
+    ],
+  },
 };
