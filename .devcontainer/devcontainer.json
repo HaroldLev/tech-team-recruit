@@ -2,19 +2,18 @@
   "extensions": [
     "vscjava.vscode-java-pack",
     "gabrielbb.vscode-lombok",
-    "jpoissonnier.vscode-styled-components",
     "esbenp.prettier-vscode",
     "EditorConfig.EditorConfig",
     "christian-kohler.npm-intellisense"
   ],
   "postCreateCommand": "/bin/bash .devcontainer/postCreateCommand.sh",
-  "forwardPorts": [3002, 13000],
+  "forwardPorts": [9966, 3000],
   "portsAttributes": {
-    "3002": {
+    "9966": {
       "label": "API",
       "onAutoForward": "silent"
     },
-    "13000": {
+    "3000": {
       "label": "Application",
       "onAutoForward": "notify"
     }
@@ -33,8 +32,5 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
   },
-  "remoteUser": "vscode",
-  "remoteEnv": {
-    "KPLAN_DATABASE_MIGRATION": "true"
-  }
+  "remoteUser": "vscode"
 }
