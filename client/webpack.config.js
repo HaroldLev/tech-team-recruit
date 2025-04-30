@@ -130,7 +130,7 @@ module.exports = {
     server: 'https',
     proxy: [
       {
-        context: ['/api'],
+        context: ['api'],
         target: 'http://localhost:9966',
         secure: false,
       },
