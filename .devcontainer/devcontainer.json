@@ -1,0 +1,40 @@
+{
+  "extensions": [
+    "vscjava.vscode-java-pack",
+    "gabrielbb.vscode-lombok",
+    "jpoissonnier.vscode-styled-components",
+    "esbenp.prettier-vscode",
+    "EditorConfig.EditorConfig",
+    "christian-kohler.npm-intellisense"
+  ],
+  "postCreateCommand": "/bin/bash .devcontainer/postCreateCommand.sh",
+  "forwardPorts": [3002, 13000],
+  "portsAttributes": {
+    "3002": {
+      "label": "API",
+      "onAutoForward": "silent"
+    },
+    "13000": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    }
+  },
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "21-bullseye",
+      "NODE_VERSION": "18.20.4"
+    }
+  },
+  "settings": {
+    "java.home": "/docker-java-home",
+    "editor.formatOnSave": true,
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+  },
+  "remoteUser": "vscode",
+  "remoteEnv": {
+    "KPLAN_DATABASE_MIGRATION": "true"
+  }
+}
