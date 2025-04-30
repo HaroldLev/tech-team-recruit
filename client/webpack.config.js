@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT ?? 3000;
 
 const entries = [
   'webpack-dev-server/client?http://localhost:' + port,
@@ -68,14 +68,14 @@ module.exports = {
       },
       {
         test: /\.(png|jpg)$/,
-        loader: 'url',
+        loader: 'url-loader',
         options: {
           limit: 25000
         }
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
-        loader: 'file',
+        loader: 'file-loader',
         options: {
           name: 'public/fonts/[name].[ext]'
         }
@@ -88,7 +88,7 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['babel/preset-react, @babel/preset-env'],
+              presets: ['@babel/preset-react', '@babel/preset-env'],
               plugins: [
                 'react-hot-loader/babel'
               ]
